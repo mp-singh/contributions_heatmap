@@ -1,6 +1,7 @@
 package core;
 
 import models.Heatmap;
+import models.Organization;
 import models.User;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -8,39 +9,42 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class RestClient {
-    String heatmapAPI = "https://372b8225-a01d-4b5f-95d6-2a6a080c109f.mock.pstmn.io/user/123/heatmap";
-    private Client client = ClientBuilder.newClient();
+    private final Client client = ClientBuilder.newClient(new ClientConfig());
 
 
-    private static final SimpleDateFormat monthDayYearformatter = new SimpleDateFormat(
-            "MMMMM dd, yyyy");
+    private static final SimpleDateFormat month = new SimpleDateFormat(
+            "MM");
 
 
-    public User getHeatmap() {
-        List<Heatmap> heatMaps = client.target(heatmapAPI)
-                .request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<List<Heatmap>>() {
-                });
+    public User getHeatmap(User user) {
+        String url = String.format("https://372b8225-a01d-4b5f-95d6-2a6a080c109f.mock.pstmn.io/user/%s/heatmap", user.getUserId());
+        List<Heatmap> result = client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<>() {
+        });
 
-//        heatMaps.forEach(heatmap -> {
-//            heatmap.setMonth(convertTimestampToDate(heatmap.getTimestamp()));
-//        });
-//        User user = new User();
+        result.forEach(heatmap -> {
+            heatmap.setMonth(month.format(new Date(heatmap.getTimestamp() * 1000)));
+        });
 
-        return new User("123", heatMaps);
+        user.setHeatmap(result);
+
+        return user;
     }
 
-    private String convertTimestampToDate(Timestamp timestamp) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timestamp.getTime());
-        cal.get(Calendar.MONTH);
-        System.out.println("month" + cal);
-        return "month";
-//        return monthDayYearformatter.format((Date) timestamp.getMonth());
+    public List<User> getOrgUsers(String org) {
+        String url = String.format("https://372b8225-a01d-4b5f-95d6-2a6a080c109f.mock.pstmn.io/user/%s/heatmap", org);
+        return client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<>() {
+        });
     }
+
+    public List<Organization> getAllOrgs() {
+        String url = "https://try.gitea.io/api/v1/orgs?limit=50";
+        return client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<>() {
+        });
+    }
+
 }

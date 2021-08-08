@@ -1,28 +1,40 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Heatmap {
-    private Timestamp timestamp;
+    private Long timestamp;
     private Integer contributions;
-//    private String month;
+    private String month;
 
-    public Timestamp getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    @Override
+    public String toString() {
+        return "Heatmap{" +
+                "timestamp=" + timestamp +
+                ", contributions=" + contributions +
+                ", month='" + month + '\'' +
+                '}';
+    }
+
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 
-//    public String getMonth() {
-//        return month;
-//    }
-//
-//    public void setMonth(String date) {
-//        this.month = month;
-//    }
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String date) {
+        this.month = month;
+    }
 
     public Integer getContributions() {
         return contributions;

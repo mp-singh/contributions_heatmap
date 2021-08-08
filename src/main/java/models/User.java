@@ -1,13 +1,18 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-    private String userId;
+    private String id;
+    private String login;
     private List<Heatmap> heatmaps;
 
-    public User(String userId, List<Heatmap> heatmaps) {
-        this.userId = userId;
+    public User(String id, String login, List<Heatmap> heatmaps) {
+        this.id = id;
+        this.login = login;
         this.heatmaps = heatmaps;
     }
 
@@ -20,10 +25,18 @@ public class User {
     }
 
     public String getUserId() {
-        return userId;
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + id + '\'' +
+                ", heatmaps=" + heatmaps +
+                '}';
     }
 }
