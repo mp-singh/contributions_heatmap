@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class RestClient {
+public class GiteaClient {
     private final Client client = ClientBuilder.newClient(new ClientConfig());
 
 
@@ -22,7 +22,7 @@ public class RestClient {
 
 
     public User getHeatmap(User user) {
-        String url = String.format("https://372b8225-a01d-4b5f-95d6-2a6a080c109f.mock.pstmn.io/user/%s/heatmap", user.getUserId());
+        String url = String.format("https://e17be3e9-7321-4b23-9872-fb5a39621264.mock.pstmn.io/user/%s/heatmap", user.getUserId());
         List<Heatmap> result = client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<>() {
         });
 
@@ -31,18 +31,17 @@ public class RestClient {
         });
 
         user.setHeatmap(result);
-
         return user;
     }
 
     public List<User> getOrgUsers(String org) {
-        String url = String.format("https://372b8225-a01d-4b5f-95d6-2a6a080c109f.mock.pstmn.io/user/%s/heatmap", org);
+        String url = String.format("https://e17be3e9-7321-4b23-9872-fb5a39621264.mock.pstmn.io/orgs/%s/members", org);
         return client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<>() {
         });
     }
 
     public List<Organization> getAllOrgs() {
-        String url = "https://try.gitea.io/api/v1/orgs?limit=50";
+        String url = "https://e17be3e9-7321-4b23-9872-fb5a39621264.mock.pstmn.io/orgs";
         return client.target(url).request(MediaType.APPLICATION_JSON_TYPE).get(new GenericType<>() {
         });
     }

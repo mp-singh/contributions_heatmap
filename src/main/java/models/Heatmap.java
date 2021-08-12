@@ -15,15 +15,6 @@ public class Heatmap {
         return timestamp;
     }
 
-    @Override
-    public String toString() {
-        return "Heatmap{" +
-                "timestamp=" + timestamp +
-                ", contributions=" + contributions +
-                ", month='" + month + '\'' +
-                '}';
-    }
-
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
@@ -32,7 +23,7 @@ public class Heatmap {
         return month;
     }
 
-    public void setMonth(String date) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
@@ -44,4 +35,12 @@ public class Heatmap {
         this.contributions = contributions;
     }
 
+    @Override
+    public String toString() {
+        return "Heatmap{" +
+                "timestamp=" + timestamp +
+                ", contributions=" + contributions +
+                ", month='" + month + '\'' +
+                '}';
+    }
 }
